@@ -1,0 +1,5 @@
+name: logstash
+blobstore:
+  provider: local
+  options:
+    blobstore_path: /tmp/logstash
