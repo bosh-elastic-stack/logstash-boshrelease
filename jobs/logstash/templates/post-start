@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Inspired by https://github.com/cloudfoundry/exemplar-release/blob/master/jobs/paragon/templates/post-start
 # If a command fails, exit immediately
 set -e
 
@@ -11,7 +11,7 @@ export attempts=0
 while [[ "$max_attempts" -ge "$attempts" ]]; do
     set +e
     echo "attempt $attempts"
-    curl -f --max-time $timeout http://127.0.0.1:9600
+    curl -s -f --max-time $timeout http://127.0.0.1:9600
     if [[ $? -eq 0 ]]; then
         exit 0
     fi
