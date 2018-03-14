@@ -1,8 +1,12 @@
 ---
 name: logstash
 
-templates: {}
+templates:
+  ctl: bin/ctl
+  post-start: bin/post-start
 
-packages: []
+packages:
+- java
+- logstash
 
 properties: {}

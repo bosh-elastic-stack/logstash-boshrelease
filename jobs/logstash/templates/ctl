@@ -1,0 +1,46 @@
+#!/bin/bash
+
+RUN_DIR=/var/vcap/sys/run/logstash
+LOG_DIR=/var/vcap/sys/log/logstash
+STORE_DIR=/var/vcap/store/logstash
+
+PIDFILE=$RUN_DIR/logstash.pid
+RUNAS=vcap
+
+export JAVA_HOME=/var/vcap/packages/java
+export PATH=$PATH:$JAVA_HOME/bin
+
+
+function pid_exists() {
+  ps -p $1 &> /dev/null
+}
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR $LOG_DIR $STORE_DIR
+    chown -R $RUNAS:$RUNAS $RUN_DIR $LOG_DIR $STORE_DIR
+
+    echo $$ > $PIDFILE
+
+    exec chpst -u $RUNAS:$RUNAS \
+       /var/vcap/packages/logstash/bin/logstash \
+      --path.data $STORE_DIR \
+      --path.logs $LOG_DIR \
+      -e 'input {  tcp { port => 5514 } } output { stdout { codec => json_lines } }' \
+      >>$LOG_DIR/logstash.stdout.log 2>>$LOG_DIR/logstash.stderr.log
+    ;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    if [ ! -z $PID ] && pid_exists $PID; then
+      kill $PID
+    fi
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  *)
+  echo "Usage: ctl {start|stop|console}" ;;
+esac
+exit 0

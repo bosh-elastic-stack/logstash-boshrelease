@@ -1,0 +1,31 @@
+---
+name: logstash
+
+releases:
+- name: logstash
+  version: latest
+
+stemcells:
+- os: ubuntu-trusty
+  alias: trusty
+  version: latest
+
+instance_groups:
+- name: logstash
+  jobs:
+  - name: logstash
+    release: logstash
+    properties: {}
+  instances: 1
+  stemcell: trusty
+  azs: [z1]
+  vm_type: default
+  persist_disk: default
+  networks:
+  - name: default
+
+update:
+  canaries: 1
+  max_in_flight: 3
+  canary_watch_time: 30000-600000
+  update_watch_time: 5000-600000
