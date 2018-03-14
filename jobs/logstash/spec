@@ -1,0 +1,8 @@
+---
+name: logstash
+
+templates: {}
+
+packages: []
+
+properties: {}

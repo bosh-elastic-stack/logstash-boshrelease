@@ -1,0 +1,8 @@
+---
+name: logstash
+
+dependencies:
+- java
+
+files:
+- logstash/logstash-6.2.2.tar.gz
