@@ -15,7 +15,24 @@ instance_groups:
   jobs:
   - name: logstash
     release: logstash
-    properties: {}
+    properties:
+      logstash:
+        conf: |-
+          input {
+            tcp {
+              add_field => [ "type", "syslog" ]
+              port => "5514"
+            }
+            http {
+              add_field => [ "type", "http" ] 
+              port => "8080"
+            }
+          }
+          output { 
+            stdout { 
+              codec => "json_lines" 
+            }
+          }
   instances: 1
   stemcell: trusty
   azs: [z1]

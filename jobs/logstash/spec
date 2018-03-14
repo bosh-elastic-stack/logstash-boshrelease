@@ -4,9 +4,14 @@ name: logstash
 templates:
   ctl: bin/ctl
   post-start: bin/post-start
+  logstash.conf: config/logstash.conf
 
 packages:
 - java
 - logstash
 
-properties: {}
+properties:
+  logstash.conf:
+    default: |-
+      input {  tcp { port => 5514 } } output { stdout { codec => json_lines } }
+    description: logstash.conf

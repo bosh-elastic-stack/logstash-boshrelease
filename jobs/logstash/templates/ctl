@@ -3,6 +3,7 @@
 RUN_DIR=/var/vcap/sys/run/logstash
 LOG_DIR=/var/vcap/sys/log/logstash
 STORE_DIR=/var/vcap/store/logstash
+JOB_DIR=/var/vcap/jobs/logstash
 
 PIDFILE=$RUN_DIR/logstash.pid
 RUNAS=vcap
@@ -25,9 +26,9 @@ case $1 in
 
     exec chpst -u $RUNAS:$RUNAS \
        /var/vcap/packages/logstash/bin/logstash \
+      --path.config $JOB_DIR/config/logstash.conf \
       --path.data $STORE_DIR \
       --path.logs $LOG_DIR \
-      -e 'input {  tcp { port => 5514 } } output { stdout { codec => json_lines } }' \
       >>$LOG_DIR/logstash.stdout.log 2>>$LOG_DIR/logstash.stderr.log
     ;;
 
