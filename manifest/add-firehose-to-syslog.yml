@@ -1,0 +1,33 @@
+- type: replace
+  path: /releases/-
+  value:
+    name: logsearch-for-cloudfoundry
+    version: 206.0.0
+    url: https://bosh.io/d/github.com/cloudfoundry-community/logsearch-for-cloudfoundry?v=206.0.0
+    sha1: 574720bed4d453ed4153f48d5244e2b4fde16354
+
+- type: replace
+  path: /instance_groups/name=logstash/jobs/-
+  value:
+    name: ingestor_cloudfoundry-firehose
+    release: logsearch-for-cloudfoundry
+    properties:
+      syslog:
+        host: localhost
+        port: 5514
+      cloudfoundry:
+        api_endpoint: https://api.((system_domain))
+        doppler_endpoint: wss://doppler.((system_domain)):((doppler_port))
+        skip_ssl_validation: true
+        firehose_events:
+        - LogMessage
+        - Error
+        firehose_subscription_id: ((firehose_subscription_id))
+        firehose_client_id: ((firehose_client_id))
+        firehose_client_secret: ((firehose_client_secret))
+        firehose_cc_pull_interval: 0
+      create-uaa-client:
+        cloudfoundry:
+          system_domain: ((system_domain))
+          uaa_admin_client_id: ((uaa_admin_client_id))
+          uaa_admin_client_secret: ((uaa_admin_client_secret))
