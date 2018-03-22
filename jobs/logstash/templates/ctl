@@ -4,7 +4,6 @@ RUN_DIR=/var/vcap/sys/run/logstash
 LOG_DIR=/var/vcap/sys/log/logstash
 STORE_DIR=/var/vcap/store/logstash
 JOB_DIR=/var/vcap/jobs/logstash
-
 PIDFILE=$RUN_DIR/logstash.pid
 RUNAS=vcap
 
@@ -21,7 +20,7 @@ case $1 in
   start)
     mkdir -p $RUN_DIR $LOG_DIR $STORE_DIR
     chown -R $RUNAS:$RUNAS $RUN_DIR $LOG_DIR $STORE_DIR
-
+    mount /tmp -o remount,exec # ¯\_(ツ)_/¯
     echo $$ > $PIDFILE
 
     exec chpst -u $RUNAS:$RUNAS \
