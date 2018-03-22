@@ -5,6 +5,8 @@ templates:
   ctl: bin/ctl
   post-start: bin/post-start
   logstash.conf: config/logstash.conf
+  tls.crt: config/tls.crt
+  tls.key: config/tls.key
 
 packages:
 - java
@@ -15,3 +17,20 @@ properties:
     default: |-
       input {  tcp { port => 5514 } } output { stdout { codec => json_lines } }
     description: logstash.conf
+  logstash.tls.certificate:
+    description: |-
+      TLS certificate that is stored in /var/vcap/jobs/logstash/config/tls.crt
+
+      You can enable tls for tcp input plugin as follows
+      input {
+        tcp {
+          add_field => [ "type", "syslog" ]
+          port => "8844"
+          ssl_enable => true
+          ssl_cert => "/var/vcap/jobs/logstash/config/tls.crt"
+          ssl_key => "/var/vcap/jobs/logstash/config/tls.key"
+          ssl_verify => false
+        }
+      }
+  logstash.tls.private_key:
+    description: TLS private key that is stored in /var/vcap/jobs/logstash/config/tls.key
