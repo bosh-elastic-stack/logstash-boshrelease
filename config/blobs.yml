@@ -4,3 +4,6 @@ java/openjdk-1.8.0_162.tar.gz:
 logstash/logstash-6.2.2.tar.gz:
   size: 139464029
   sha: 646092f77036e4dd83f398464f6024496038e3c2
+logstash/logstash-6.2.3.tar.gz:
+  size: 138221072
+  sha: 7bc35955be1b5dddf94a39b776bdcaaf761fb9e2
