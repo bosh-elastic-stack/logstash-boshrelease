@@ -3,7 +3,7 @@
 # If a command fails, exit immediately
 set -e
 
-export timeout=120
+export timeout=200
 export polling_frequency=1
 
 export max_attempts=$((timeout / polling_frequency))
