@@ -2,11 +2,11 @@
 name: logstash
 
 templates:
-  ctl: bin/ctl
-  post-start: bin/post-start
-  logstash.conf: config/logstash.conf
-  tls.crt: config/tls.crt
-  tls.key: config/tls.key
+  bin/ctl: bin/ctl
+  bin/post-start: bin/post-start
+  config/logstash.conf: config/logstash.conf
+  config/tls.crt: config/tls.crt
+  config/tls.key: config/tls.key
 
 packages:
 - java
