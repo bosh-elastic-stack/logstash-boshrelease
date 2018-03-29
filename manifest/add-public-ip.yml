@@ -1,0 +1,14 @@
+# bosh -d logstash deploy manifest/logstash.yml -o manifest/add-public-ip.yml --var-file logstash.conf=manifest/logstash.conf -v external_ip=52.185.159.153 --no-redact
+
+- type: replace
+  path: /instance_groups/name=logstash/networks/name=default/default?
+  value:
+  - dns
+  - gateway
+
+- type: replace
+  path: /instance_groups/name=logstash/networks/-
+  value: 
+    name: public
+    static_ips:
+    - ((external_ip))
