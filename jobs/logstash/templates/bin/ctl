@@ -21,11 +21,15 @@ case $1 in
     mkdir -p $RUN_DIR $LOG_DIR $STORE_DIR
     chown -R $RUNAS:$RUNAS $RUN_DIR $LOG_DIR $STORE_DIR
     mount /tmp -o remount,exec # ¯\_(ツ)_/¯
+
+    export ES_HOSTS=`cat $JOB_DIR/config/elasticsearch-hosts`
+    sed "s|__ES_HOSTS__|${ES_HOSTS}|g" $JOB_DIR/config/logstash.conf > $JOB_DIR/config/logstash-es.conf
+
     echo $$ > $PIDFILE
 
     exec chpst -u $RUNAS:$RUNAS \
        /var/vcap/packages/logstash/bin/logstash \
-      --path.config $JOB_DIR/config/logstash.conf \
+      --path.config $JOB_DIR/config/logstash-es.conf \
       --path.data $STORE_DIR \
       --path.logs $LOG_DIR \
       >>$LOG_DIR/logstash.stdout.log 2>>$LOG_DIR/logstash.stderr.log

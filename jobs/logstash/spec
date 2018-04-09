@@ -7,10 +7,16 @@ templates:
   config/logstash.conf: config/logstash.conf
   config/tls.crt: config/tls.crt
   config/tls.key: config/tls.key
+  config/elasticsearch-hosts: config/elasticsearch-hosts
 
 packages:
 - java
 - logstash
+
+consumes:
+- name: elasticsearch
+  type: elasticsearch
+  optional: true
 
 properties:
   logstash.conf:
@@ -34,3 +40,5 @@ properties:
       }
   logstash.tls.private_key:
     description: TLS private key that is stored in /var/vcap/jobs/logstash/config/tls.key
+  elasticsearch.master_hosts:
+    description: The list of elasticsearch master node IPs
