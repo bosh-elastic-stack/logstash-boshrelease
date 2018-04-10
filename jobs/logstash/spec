@@ -42,3 +42,4 @@ properties:
     description: TLS private key that is stored in /var/vcap/jobs/logstash/config/tls.key
   elasticsearch.master_hosts:
     description: The list of elasticsearch master node IPs
+    default: []
