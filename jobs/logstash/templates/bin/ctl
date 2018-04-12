@@ -26,7 +26,7 @@ case $1 in
 
     export ES_HOSTS=`cat $JOB_DIR/config/elasticsearch-hosts`
     sed "s|__ES_HOSTS__|${ES_HOSTS}|g" $JOB_DIR/config/logstash.conf > $JOB_DIR/config/logstash-es.conf
-
+    source $JOB_DIR/config/env.sh
     echo $$ > $PIDFILE
 
     exec chpst -u $RUNAS:$RUNAS \
