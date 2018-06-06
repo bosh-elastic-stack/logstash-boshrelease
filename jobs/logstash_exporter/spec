@@ -1,0 +1,23 @@
+---
+name: logstash_exporter
+
+description: Prometheus logstash exporter using metrics endpoint
+
+templates:
+  bin/ctl.erb: bin/ctl
+  data/properties.sh.erb: data/properties.sh
+
+packages:
+- logstash_exporter
+- bosh-helpers
+
+properties:
+  logstash_exporter.web.port:
+    description: "Port on which to expose metrics and web interface"
+    default: 9198
+  logstash_exporter.web.address:
+    description: "Address on which to expose metrics and web interface"
+    default: "0.0.0.0"
+  logstash_exporter.logstash_endpoint:
+    description: "Metrics endpoint address of logstash"
+    default: "http://127.0.0.1:9600"

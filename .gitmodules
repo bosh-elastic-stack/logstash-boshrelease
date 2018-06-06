@@ -1,0 +1,3 @@
+[submodule "src/github.com/BonnierNews/logstash_exporter"]
+	path = src/github.com/BonnierNews/logstash_exporter
+	url = https://github.com/BonnierNews/logstash_exporter.git

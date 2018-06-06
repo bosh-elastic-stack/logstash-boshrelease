@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -e -x
+
+PROMU_VERSION="0.1.0"
+GOMETALINTER_VERSION="2.0.5"
+
+BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
+
+# Build
+echo "Building and installing logstash-exporter binaries ..."
+
+mkdir -p ${BOSH_INSTALL_TARGET}/src
+mkdir -p ${BOSH_INSTALL_TARGET}/bin
+
+cp -a . ${BOSH_INSTALL_TARGET}/src
+
+export GOPATH=${BOSH_INSTALL_TARGET}
+export GOROOT=$(readlink -nf "${BOSH_PACKAGES_DIR}/golang")
+export PATH=${GOROOT}/bin:${PATH}
+
+# Install promu (TODO: make another package)
+#curl -sL https://github.com/prometheus/promu/releases/download/v${PROMU_VERSION}/promu-${PROMU_VERSION}.linux-amd64.tar.gz -o - | tar xzf - -C ${BOSH_INSTALL_TARGET}/bin --strip-components 1 --wildcards --no-anchored '*/promu'
+
+# Install gometalinter  (TODO: make another package)
+#curl -sL https://github.com/alecthomas/gometalinter/releases/download/v${GOMETALINTER_VERSION}/gometalinter-${GOMETALINTER_VERSION}-linux-amd64.tar.gz  -o - | tar xzf - -C ${BOSH_INSTALL_TARGET}/bin --strip-components 1
+
+pushd ${BOSH_INSTALL_TARGET}/src/github.com/BonnierNews/logstash_exporter
+  go build -o ${BOSH_INSTALL_TARGET}/bin/logstash_exporter logstash_exporter.go
+popd
+
+# clean up source artifacts
+rm -rf ${BOSH_INSTALL_TARGET}/src ${BOSH_INSTALL_TARGET}/pkg
+
+chmod a+x ${BOSH_INSTALL_TARGET}/bin/*
