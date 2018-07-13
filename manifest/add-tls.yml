@@ -1,5 +1,6 @@
 # export EXTERNAL_IP=
 # bosh -d logstash deploy manifest/logstash.yml -o manifest/add-public-ip.yml -o manifest/add-tls.yml --var-file logstash.conf=manifest/logstash.conf -v external_ip=${EXTERNAL_IP} --no-redact
+# bosh -d logstash deploy manifest/logstash.yml -o manifest/add-public-ip.yml -o manifest/add-tls.yml --var-file logstash.conf=manifest/logstash.conf -v external_ip=${EXTERNAL_IP} --var-file logstash_tls.certificate=${HOME}/gdrive/sslip.io/sslip.io.crt --var-file logstash_tls.private_key=${HOME}/gdrive/sslip.io/sslip.io.key --no-redact
 
 - type: replace
   path: /variables?/-
@@ -19,6 +20,7 @@
       ca: logstash_ca
       common_name: 127.0.0.1
       alternative_names:
+      - "*.sslip.io"
       - ((external_ip))
 
 - type: replace
