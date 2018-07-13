@@ -45,10 +45,10 @@ properties:
     description: TLS private key that is stored in /var/vcap/jobs/logstash/config/tls.key
   logstash.env:
     description: A hash of envrioment varibales
-  logstatsh.readiness_probe_http_port:
+  logstash.readiness_probe_http_port:
     descrititon: HTTP port to check the readiness of Logstash server. Set 0 to disable the http readiness probe.
     default: 9600
-  logstatsh.readiness_probe_tcp_port:
+  logstash.readiness_probe_tcp_port:
     descrititon: TCP port to check the readiness of Logstash server. Set 0 to disable the TCP readiness probe.
     default: 0
   elasticsearch.master_hosts:
