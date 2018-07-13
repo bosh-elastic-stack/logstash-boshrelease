@@ -8,18 +8,30 @@ export polling_frequency=1
 
 export max_attempts=$((timeout / polling_frequency))
 export attempts=0
-while [[ "$max_attempts" -ge "$attempts" ]]; do
-    set +e
-    echo "attempt $attempts"
-    curl -s -f --max-time $timeout http://127.0.0.1:9600
-    if [[ $? -eq 0 ]]; then
-        exit 0
-    fi
-    set -e
+export http_probe_port=p("logstatsh.readiness_probe_http_port")
+export tcp_probe_port=p("logstatsh.readiness_probe_tcp_port")
 
-    attempts=$(($attempts + 1))
+if [[ "${http_probe_port}" -gt "0" ]];then
+	while [[ "$max_attempts" -ge "$attempts" ]]; do
+	    set +e
+	    echo "attempt $attempts"
+	    curl -s -f --max-time $timeout http://127.0.0.1:${http_probe_port}
+	    if [[ $? -eq 0 ]]; then
+	        exit 0
+	    fi
+	    set -e
 
-    sleep "$polling_frequency"
-done
+	    attempts=$(($attempts + 1))
+
+	    sleep "$polling_frequency"
+	done
+fi
+
+if [[ "${tcp_probe_port}" -gt "0" ]];then
+	python /var/vcap/jobs/logstash/bin/tcp_probe.py --host localhost --port ${tcp_probe_port} --retries $max_attempts --interval=$polling_frequency
+	if [[ $? -eq 0 ]]; then
+	    exit 0
+	fi
+fi
 
 exit 1

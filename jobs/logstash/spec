@@ -4,6 +4,8 @@ name: logstash
 templates:
   bin/ctl: bin/ctl
   bin/post-start: bin/post-start
+  bin/ctl_utils.sh: bin/ctl_utils.sh
+  bin/tcp_probe.py: bin/tcp_probe.py
   config/logstash.conf: config/logstash.conf
   config/tls.crt: config/tls.crt
   config/tls.key: config/tls.key
@@ -43,6 +45,12 @@ properties:
     description: TLS private key that is stored in /var/vcap/jobs/logstash/config/tls.key
   logstash.env:
     description: A hash of envrioment varibales
+  logstatsh.readiness_probe_http_port:
+    descrititon: HTTP port to check the readiness of Logstash server. Set 0 to disable the http readiness probe.
+    default: 9600
+  logstatsh.readiness_probe_tcp_port:
+    descrititon: TCP port to check the readiness of Logstash server. Set 0 to disable the TCP readiness probe.
+    default: 0
   elasticsearch.master_hosts:
     description: The list of elasticsearch master node IPs
     default: []
