@@ -32,7 +32,7 @@ properties:
       input {
         tcp {
           add_field => [ "type", "syslog" ]
-          port => "8844"
+          port => "5514"
           ssl_enable => true
           ssl_cert => "/var/vcap/jobs/logstash/config/tls.crt"
           ssl_key => "/var/vcap/jobs/logstash/config/tls.key"
