@@ -8,8 +8,8 @@ export polling_frequency=1
 
 export max_attempts=$((timeout / polling_frequency))
 export attempts=0
-export http_probe_port=p("logstatsh.readiness_probe_http_port")
-export tcp_probe_port=p("logstatsh.readiness_probe_tcp_port")
+export http_probe_port=<%=p("logstatsh.readiness_probe_http_port") %>
+export tcp_probe_port=<%=p("logstatsh.readiness_probe_tcp_port") %>
 
 if [[ "${http_probe_port}" -gt "0" ]];then
 	while [[ "$max_attempts" -ge "$attempts" ]]; do
