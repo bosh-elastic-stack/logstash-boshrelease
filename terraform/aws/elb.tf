@@ -22,6 +22,10 @@ variable "elb_subnet_ids" {
   type = "list"
 }
 
+variable "logstash_tcp_port" {
+  default = 5514
+}
+
 provider "aws" {
   access_key = "${var.access_key}"
   secret_key = "${var.secret_key}"
@@ -34,9 +38,9 @@ resource "aws_elb" "logstash" {
   security_groups = ["${aws_security_group.logstash.id}"]
 
   listener {
-    instance_port     = 5514
+    instance_port     = "${var.logstash_tcp_port}"
     instance_protocol = "tcp"
-    lb_port           = 5514
+    lb_port           = "${var.logstash_tcp_port}"
     lb_protocol       = "tcp"
   }
 
@@ -44,7 +48,7 @@ resource "aws_elb" "logstash" {
     healthy_threshold   = 6
     unhealthy_threshold = 3
     timeout             = 3
-    target              = "TCP:5514"
+    target              = "TCP:${var.logstash_tcp_port}"
     interval            = 5
   }
 }
@@ -66,8 +70,8 @@ resource "aws_security_group_rule" "outbound" {
 
 resource "aws_security_group_rule" "logstash" {
   type        = "ingress"
-  from_port   = 5514
-  to_port     = 5514
+  from_port   = "${var.logstash_tcp_port}"
+  to_port     = "${var.logstash_tcp_port}"
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 
