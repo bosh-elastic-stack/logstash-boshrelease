@@ -1,0 +1,8 @@
+- type: remove
+  path: /instance_groups/name=logstash/persistent_disk?
+- type: replace
+  path: /instance_groups/name=logstash/persistent_disk_type?
+  value: ((logstash_disk_type))
+- type: replace
+  path: /instance_groups/name=logstash/vm_type
+  value: ((logstash_vm_type))
