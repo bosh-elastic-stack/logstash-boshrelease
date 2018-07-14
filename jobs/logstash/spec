@@ -51,6 +51,12 @@ properties:
   logstash.readiness_probe_tcp_port:
     descrititon: TCP port to check the readiness of Logstash server. Set 0 to disable the TCP readiness probe.
     default: 0
+  logstash.kill_and_wait_timeout:
+    default: timeout for kill_and_wait function
+    default: 5
+  logstash.sigkill_on_timeout:
+    default: Whether to send kill signal on timeout
+    default: true
   elasticsearch.master_hosts:
     description: The list of elasticsearch master node IPs
     default: []
