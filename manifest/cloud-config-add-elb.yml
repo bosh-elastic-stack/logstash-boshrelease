@@ -1,0 +1,7 @@
+- type: replace
+  path: /vm_extensions/logstash=-lb?
+  value:
+    name: logstash-lb
+    cloud_properties:
+      elbs:
+      - ((logstash_lb_name))
