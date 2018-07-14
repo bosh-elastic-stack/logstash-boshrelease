@@ -10,6 +10,7 @@ RUNAS=vcap
 export JAVA_HOME=/var/vcap/packages/java
 export PATH=$PATH:$JAVA_HOME/bin
 
+source /var/vcap/jobs/logstash/bin/ctl_utils.sh
 
 function pid_exists() {
   ps -p $1 &> /dev/null
@@ -38,12 +39,7 @@ case $1 in
     ;;
 
   stop)
-    PID=$(head -1 $PIDFILE)
-    if [ ! -z $PID ] && pid_exists $PID; then
-      kill $PID
-    fi
-    while [ -e /proc/$PID ]; do sleep 0.1; done
-    rm -f $PIDFILE
+    kill_and_wait $PIDFILE
     ;;
 
   *)
