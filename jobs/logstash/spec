@@ -57,6 +57,16 @@ properties:
   logstash.sigkill_on_timeout:
     default: Whether to send kill signal on timeout
     default: true
-  elasticsearch.master_hosts:
-    description: The list of elasticsearch master node IPs
+  elasticsearch.hosts:
+    description: The list of elasticsearch node IPs
     default: []
+  elasticsearch.protocol:
+    description: "Protocl of elasticsearch to send elasticsearch requests to (http or https)"
+    default: "http"
+  elasticsearch.port:
+    description: "Port of elasticsearch to send elasticsearch requests to"
+    default: "9200"
+  elasticsearch.username:
+    description: "The username of basic authentication on Elasticsearch"
+  elasticsearch.password:
+    description: "The password of basic authentication on Elasticsearch"

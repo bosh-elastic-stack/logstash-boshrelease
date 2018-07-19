@@ -1,7 +1,7 @@
 <%
-  master_hosts = nil
-  if_link("elasticsearch") { |elasticsearch_link| master_hosts = elasticsearch_link.instances.map {|e| "http://" + e.address + ":9200"} }
-  unless master_hosts
-    master_hosts = p("elasticsearch.master_hosts")
+  es_hosts = nil
+  if_link("elasticsearch") { |elasticsearch_link| es_hosts = elasticsearch_link.instances.map {|e| p("elasticsearch.protocol") + "://" + e.address + ":" + p("elasticsearch.port")} }
+  unless es_hosts
+    es_hosts = p("elasticsearch.hosts")
   end
-%><%= master_hosts %>
+%><%= es_hosts %>
