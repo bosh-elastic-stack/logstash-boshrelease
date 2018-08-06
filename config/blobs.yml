@@ -13,3 +13,6 @@ logstash/logstash-6.2.4.tar.gz:
 logstash/logstash-6.3.1.tar.gz:
   size: 143870472
   sha: 9088a667b0cf0ece7bcacdfd62c8721d213bcbeb
+logstash/logstash-6.3.2.tar.gz:
+  size: 144211416
+  sha: 29eede4660b88c0b7182e76d2c3f3a6df29587b8
