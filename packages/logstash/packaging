@@ -2,4 +2,4 @@ set -e
 
 export JAVA_HOME=/var/vcap/packages/java
 
-tar xzf logstash/logstash-6.3.1.tar.gz -C $BOSH_INSTALL_TARGET --strip-components 1
+tar xzf logstash/logstash-6.3.2.tar.gz -C $BOSH_INSTALL_TARGET --strip-components 1
