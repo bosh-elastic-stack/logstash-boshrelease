@@ -5,4 +5,4 @@ dependencies:
 - java
 
 files:
-- logstash/logstash-6.3.2.tar.gz
+- logstash/logstash-6.4.0.tar.gz
