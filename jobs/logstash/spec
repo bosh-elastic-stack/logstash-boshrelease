@@ -13,7 +13,6 @@ templates:
   config/elasticsearch-hosts: config/elasticsearch-hosts
 
 packages:
-- java
 - logstash
 
 consumes:

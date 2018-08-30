@@ -1,8 +1,7 @@
 ---
 name: logstash
 
-dependencies:
-- java
+dependencies: []
 
 files:
 - logstash/logstash-6.4.0.tar.gz

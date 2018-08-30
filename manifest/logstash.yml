@@ -4,6 +4,10 @@ name: logstash
 releases:
 - name: logstash
   version: latest
+- name: openjdk
+  version: 0.1.1
+  url: https://github.com/making/openjdk-boshrelease/releases/download/0.1.1/openjdk-boshrelease-0.1.1.tgz
+  sha1: 06e397150e924755421d21452bd8d42e4f4bed60
 
 stemcells:
 - os: ubuntu-trusty
@@ -13,6 +17,8 @@ stemcells:
 instance_groups:
 - name: logstash
   jobs:
+  - name: java
+    release: openjdk
   - name: logstash
     release: logstash
     properties:
