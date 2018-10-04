@@ -1,0 +1,15 @@
+name: logstash
+version: 0.4.2
+commit_hash: 16e76cf
+uncommitted_changes: true
+jobs:
+- name: logstash
+  version: 9fb725c390be8b06e82ca8edab261bc86e29e640
+  fingerprint: 9fb725c390be8b06e82ca8edab261bc86e29e640
+  sha1: e6b84382aed04a86a1ea7f6b9cc1b8c3edaf5361
+packages:
+- name: logstash
+  version: d0886f09f1c0c1cdd3f89ab652cc8c758c6c373a
+  fingerprint: d0886f09f1c0c1cdd3f89ab652cc8c758c6c373a
+  sha1: 21b48f484bdcaa4a0b8a32473efbf407697710a7
+  dependencies: []
