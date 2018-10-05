@@ -3,7 +3,7 @@ resources:
 - name: repo
   type: git
   source:
-    uri: git@github.com:making/logstash-boshrelease.git
+    uri: git@github.com:bosh-elastic-stack/logstash-boshrelease.git
     branch: master
     private_key: ((github-private-key))
     ignore_paths:
@@ -13,7 +13,7 @@ resources:
 - name: repo-version
   type: semver
   source:
-    uri: git@github.com:making/logstash-boshrelease.git
+    uri: git@github.com:bosh-elastic-stack/logstash-boshrelease.git
     branch: version
     private_key: ((github-private-key))
     file: version
@@ -21,7 +21,7 @@ resources:
 - name: gh-release
   type: github-release
   source:
-    user: making
+    user: bosh-elastic-stack
     repository: logstash-boshrelease
     access_token: ((github-access-token))
 
@@ -81,6 +81,8 @@ jobs:
       <<: *BOSH
       GIT_EMAIL: ((git-email))
       GIT_NAME: ((git-name))
+      S3_ACCESS_KEY_ID: ((s3-access-key-id))
+      S3_SECRET_ACCESS_KEY: ((s3-secret-access-key))
     config:
       platform: linux
       image_resource:
@@ -103,11 +105,17 @@ jobs:
           cd repo
           shopt -s dotglob
           cp -r ./* ../updated-repo
-          rm -rf .final_builds releases
           VERSION=`cat ../repo-version/number`
           TARBALL=logstash-boshrelease-${VERSION}.tgz
           ln -s ../compiled ./.downloads
           ./add-blobs.sh
+          cat <<EOF > config/private.yml
+          ---
+          blobstore:
+            options:
+              access_key_id: ${S3_ACCESS_KEY_ID}
+              secret_access_key: ${S3_SECRET_ACCESS_KEY}
+          EOF
           bosh create-release --force --version=${VERSION} --final --tarball=../releases/${TARBALL}
           SHA1=`sha1sum ../releases/${TARBALL} | awk '{print $1}'`
           mkdir -p .sha1
@@ -230,7 +238,6 @@ tasks:
         cd repo
         ln -s ../compiled ./.downloads
         ./add-blobs.sh
-        rm -rf .final_builds releases
         bosh create-release --name=logstash-dev --force --timestamp-version --tarball=../releases/logstash-boshrelease.tgz
   bosh-deploy: &BOSH_DEPLOY
     platform: linux
