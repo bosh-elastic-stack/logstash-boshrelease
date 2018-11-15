@@ -1,0 +1,16 @@
+set -e
+
+CPUS=`grep -c ^processor /proc/cpuinfo`
+PYTHON_VERSION=2.7.15
+
+tar xzf python2.7/Python-${PYTHON_VERSION}.tgz
+
+pushd Python-${PYTHON_VERSION}
+  ./configure \
+    --prefix=${BOSH_INSTALL_TARGET} \
+    --with-ensurepip \
+    --enable-shared
+
+  make -j${CPUS}
+  make install
+popd

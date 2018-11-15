@@ -3,6 +3,9 @@
 # If a command fails, exit immediately
 set -e
 
+export PATH=$PATH:/var/vcap/packages/python2.7/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/var/vcap/packages/python2.7/lib
+
 export timeout=200
 export polling_frequency=1
 
