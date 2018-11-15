@@ -1,2 +1,4 @@
----
-{}
+logstash/logstash-6.4.3.tar.gz:
+  size: 153936585
+  object_id: af2f8511-5322-4337-7924-b575cc45781d
+  sha: cb1c4c6ff2c5ef9b14809733624b5c4b5e55e78d
