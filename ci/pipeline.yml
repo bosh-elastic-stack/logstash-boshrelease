@@ -281,7 +281,7 @@ tasks:
           start-bosh
           source /tmp/local-bosh/director/env
           VM_TYPE=default
-          bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3468.21
+          bosh upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/warden/bosh-stemcell-170.5-warden-boshlite-ubuntu-xenial-go_agent.tgz
         fi
         bosh env
         bosh upload-release releases/*.tgz

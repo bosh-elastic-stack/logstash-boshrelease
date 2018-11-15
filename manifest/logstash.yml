@@ -10,8 +10,8 @@ releases:
   sha1: 06e397150e924755421d21452bd8d42e4f4bed60
 
 stemcells:
-- os: ubuntu-trusty
-  alias: trusty
+- os: ubuntu-xenial
+  alias: xenial
   version: latest
 
 instance_groups:
@@ -25,7 +25,7 @@ instance_groups:
       logstash:
         conf: ((logstash.conf))
   instances: 1
-  stemcell: trusty
+  stemcell: xenial
   azs: [z1]
   vm_type: default
   persistent_disk: 1024
