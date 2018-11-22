@@ -18,7 +18,7 @@ blob_download() {
   fi
 }
 
-LOGSTASH_VERSION=6.5.0
+LOGSTASH_VERSION=6.5.1
 
 blob_download logstash https://artifacts.elastic.co/downloads/logstash/logstash-${LOGSTASH_VERSION}.tar.gz logstash-${LOGSTASH_VERSION}.tar.gz
 blob_download python2.7 https://www.python.org/ftp/python/2.7.15/Python-2.7.15.tgz Python-2.7.15.tgz
