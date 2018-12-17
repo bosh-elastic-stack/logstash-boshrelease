@@ -175,7 +175,6 @@ tasks:
         repository: bosh/main-bosh-docker
     inputs:
     - name: repo
-    - name: compiled
     outputs:
     - name: releases
     run:
