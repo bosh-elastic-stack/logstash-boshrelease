@@ -1,9 +1,0 @@
----
-name: logstash_exporter
-
-dependencies:
-- golang
-
-files:
-- ./**/*
-
