@@ -46,10 +46,10 @@ properties:
   logstash.env:
     description: A hash of envrioment varibales
   logstash.readiness_probe_http_port:
-    descrititon: HTTP port to check the readiness of Logstash server. Set 0 to disable the http readiness probe.
+    description: HTTP port to check the readiness of Logstash server. Set 0 to disable the http readiness probe.
     default: 9600
   logstash.readiness_probe_tcp_port:
-    descrititon: TCP port to check the readiness of Logstash server. Set 0 to disable the TCP readiness probe.
+    description: TCP port to check the readiness of Logstash server. Set 0 to disable the TCP readiness probe.
     default: 0
   logstash.kill_and_wait_timeout:
     default: timeout for kill_and_wait function
