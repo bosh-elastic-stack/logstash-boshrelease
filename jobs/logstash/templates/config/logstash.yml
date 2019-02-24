@@ -1,0 +1,38 @@
+<% if_p('xpack.monitoring.enabled') do |enabled| -%>
+xpack.monitoring.enabled: <%= enabled %>
+<%
+  es_hosts = nil
+  if_link("elasticsearch") { |elasticsearch_link| es_hosts = elasticsearch_link.instances.map {|e| p("elasticsearch.protocol") + "://" + e.address + ":" + p("elasticsearch.port")} }
+  unless es_hosts
+    es_hosts = p("elasticsearch.hosts")
+  end
+-%>
+xpack.monitoring.elasticsearch.url: <%= es_hosts %>
+<% if_p('elasticsearch.username') do |username| -%>
+xpack.monitoring.elasticsearch.username: <%= username %>
+<% end -%>
+<% if_p('elasticsearch.password') do |password| -%>
+xpack.monitoring.elasticsearch.password: <%= password %>
+<% end -%>
+<% if_p('xpack.monitoring.collection.interval') do |interval| -%>
+xpack.monitoring.collection.interval: <%= interval %>
+<% end -%>
+<% if_p('xpack.monitoring.elasticsearch.ssl.ca') do |ca| -%>
+xpack.monitoring.elasticsearch.ssl.ca: /var/vcap/jobs/logstash/config/elasticsearch-ca.crt
+<% end -%>
+<% if_p('xpack.monitoring.elasticsearch.ssl.truststore.path') do |path| -%>
+xpack.monitoring.elasticsearch.ssl.truststore.path: <%= path %>
+<% end -%>
+<% if_p('xpack.monitoring.elasticsearch.ssl.truststore.password') do |password| -%>
+xpack.monitoring.elasticsearch.ssl.truststore.password: <%= password %>
+<% end -%>
+<% if_p('xpack.monitoring.elasticsearch.ssl.keystore.path') do |path| -%>
+xpack.monitoring.elasticsearch.ssl.keystore.path: <%= path %>
+<% end -%>
+<% if_p('xpack.monitoring.elasticsearch.ssl.keystore.password') do |password| -%>
+xpack.monitoring.elasticsearch.ssl.keystore.password: <%= password %>
+<% end -%>
+<% if_p('xpack.monitoring.elasticsearch.ssl.verification_mode') do |verification_mode| -%>
+xpack.monitoring.elasticsearch.ssl.verification_mode: <%= verification_mode %>
+<% end -%>
+<% end -%>

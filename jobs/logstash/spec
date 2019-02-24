@@ -7,10 +7,12 @@ templates:
   bin/ctl_utils.sh: bin/ctl_utils.sh
   bin/tcp_probe.py: bin/tcp_probe.py
   config/logstash.conf: config/logstash.conf
+  config/logstash.yml: config/logstash.yml
   config/tls.crt: config/tls.crt
   config/tls.key: config/tls.key
   config/env.sh: config/env.sh
   config/elasticsearch-hosts: config/elasticsearch-hosts
+  config/elasticsearch-ca.crt: config/elasticsearch-ca.crt
 
 packages:
 - logstash
@@ -70,3 +72,32 @@ properties:
     description: "The username of basic authentication on Elasticsearch"
   elasticsearch.password:
     description: "The password of basic authentication on Elasticsearch"
+  xpack.monitoring.enabled:
+    description: "Monitoring is disabled by default. Set to `true` to enable X-Pack monitoring."
+  xpack.monitoring.elasticsearch.url:
+    description: "The Elasticsearch instances that you want to ship your Logstash metrics to. This might be the same Elasticsearch instance specified in the `outputs` section in your Logstash configuration, or a different one. This is not the URL of your dedicated monitoring cluster. Even if you are using a dedicated monitoring cluster, the Logstash metrics must be routed through your production cluster. You can specify a single host as a string, or specify multiple hosts as an array. Defaults to `http://localhost:9200`."
+  xpack.monitoring.elasticsearch.username:
+    description: "If your Elasticsearch is protected with basic authentication, these settings provide the username and password that the Logstash instance uses to authenticate for shipping monitoring data."
+  xpack.monitoring.elasticsearch.password:
+    description: "If your Elasticsearch is protected with basic authentication, these settings provide the username and password that the Logstash instance uses to authenticate for shipping monitoring data."
+  xpack.monitoring.collection.interval:
+    description: "Controls how often data samples are collected and shipped on the Logstash side. Defaults to `10s`. If you modify the collection interval, set the `xpack.monitoring.min_interval_seconds` option in `kibana.yml` to the same value."
+  xpack.monitoring.elasticsearch.ssl.ca:
+    description: "Optional setting that enables you to specify a path to the `.pem` file for the certificate authority for your Elasticsearch instance."
+  xpack.monitoring.elasticsearch.ssl.certificate_authority: #After Logstash 6.7
+    description: "Optional setting that enables you to specify a path to the `.pem` file for the certificate authority for your Elasticsearch instance."
+  xpack.monitoring.elasticsearch.ssl.truststore.path:
+    description: "Optional settings that provide the paths to the Java keystore (JKS) to validate the server’s certificate."
+  xpack.monitoring.elasticsearch.ssl.truststore.password:
+    description: "Optional settings that provide the password to the truststore."
+  xpack.monitoring.elasticsearch.ssl.keystore.path:
+    description: "Optional settings that provide the paths to the Java keystore (JKS) to validate the client’s certificate."
+  xpack.monitoring.elasticsearch.ssl.keystore.password:
+    description: "Optional settings that provide the password to the keystore."
+  xpack.monitoring.elasticsearch.ssl.verification_mode:
+    description: |
+      "Controls the verification of certificates. Valid values are:"
+      "- `full`, which verifies that the provided certificate is signed by a trusted authority (CA) and also verifies that the server’s hostname (or IP address) matches the names identified within the certificate."
+      "- `certificate`, which verifies that the provided certificate is signed by a trusted authority (CA), but does not perform any hostname verification."
+      "- `none`, which performs no verification of the server’s certificate. This mode disables many of the security benefits of SSL/TLS and should only be used after very careful consideration. It is primarily intended as a temporary diagnostic mechanism when attempting to resolve TLS errors, and its use on production clusters is strongly discouraged."
+      "- The default value is `full`."

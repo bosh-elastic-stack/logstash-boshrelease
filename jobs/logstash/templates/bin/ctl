@@ -37,6 +37,7 @@ case $1 in
       --path.config $JOB_DIR/config/logstash-es.conf \
       --path.data $STORE_DIR \
       --path.logs $LOG_DIR \
+      --path.settings $JOB_DIR/config \
       >>$LOG_DIR/logstash.stdout.log 2>>$LOG_DIR/logstash.stderr.log
     ;;
 
