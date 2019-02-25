@@ -1,3 +1,4 @@
+node.name: <%= name %>/<%= index %>
 <% if_p('xpack.monitoring.enabled') do |enabled| -%>
 xpack.monitoring.enabled: <%= enabled %>
 <%
