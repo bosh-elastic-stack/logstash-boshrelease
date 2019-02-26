@@ -7,6 +7,7 @@ templates:
   bin/ctl_utils.sh: bin/ctl_utils.sh
   bin/tcp_probe.py: bin/tcp_probe.py
   config/logstash.conf: config/logstash.conf
+  config/logstash.yml.template: config/logstash.yml.template
   config/tls.crt: config/tls.crt
   config/tls.key: config/tls.key
   config/env.sh: config/env.sh
@@ -70,3 +71,5 @@ properties:
     description: "The username of basic authentication on Elasticsearch"
   elasticsearch.password:
     description: "The password of basic authentication on Elasticsearch"
+  logstash.config_options:
+    description: "Additional options to append to logstash.yml (YAML format)."

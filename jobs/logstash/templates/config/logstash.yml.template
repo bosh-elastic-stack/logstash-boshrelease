@@ -1,0 +1,4 @@
+node.name: <%= name %>/<%= index %>
+<% if_p('logstash.config_options') do |config_options| %>
+<%= config_options.to_yaml.gsub(/---/, '') %>
+<% end %> 
