@@ -29,6 +29,7 @@ case $1 in
     <% if_p('elasticsearch.password') do |password| %>
     sed -i "s|__ES_PASSWORD__|<%= password %>|g" $JOB_DIR/config/logstash-es.conf
     <% end %>
+    sed "s|__ES_HOSTS__|${ES_HOSTS}|g" $JOB_DIR/config/logstash.yml.template > $JOB_DIR/config/logstash.yml
     source $JOB_DIR/config/env.sh
     echo $$ > $PIDFILE
 
@@ -37,6 +38,7 @@ case $1 in
       --path.config $JOB_DIR/config/logstash-es.conf \
       --path.data $STORE_DIR \
       --path.logs $LOG_DIR \
+      --path.settings $JOB_DIR/config \
       >>$LOG_DIR/logstash.stdout.log 2>>$LOG_DIR/logstash.stderr.log
     ;;
 
