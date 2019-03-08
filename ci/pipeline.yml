@@ -128,6 +128,43 @@ resources:
               "urls": [ { "url": "https://artifacts.elastic.co/downloads/logstash/\(.)" } ] } ] }'
 
 jobs:
+- name: create-el-bosh-release
+  build_logs_to_retain: 3
+  plan:
+  - get: gh-release
+    trigger: true
+    params:
+      include_source_tarball: true
+  - get: repo
+  - task: create-release
+    params:
+      VERSION_SUFFIX: "_el"
+    file: repo/ci/create-el-bosh-release.yml
+  - task: upload-release
+    params:
+      BOSH_CLIENT: ((bosh-client))
+      BOSH_ENVIRONMENT: ((bosh-environment))
+      BOSH_CLIENT_SECRET: ((bosh-client-secret))
+      BOSH_CA_CERT: ((bosh-ca-cert))
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: bosh/main-bosh-docker
+      inputs:
+      - name: bosh-releases
+      outputs:
+      - name: bosh-releases
+      run:
+        path: bash
+        args:
+        - -c
+        - |
+          set -e
+          bosh upload-release bosh-releases/*.tgz
+          bosh delete-release -n logstash
+
 - name: update-pr
   serial: true
   plan:
