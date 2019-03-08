@@ -1,4 +1,80 @@
 ---
+params:
+  bosh: &BOSH
+    BOSH_CLIENT: ((bosh-client))
+    BOSH_ENVIRONMENT: ((bosh-environment))
+    BOSH_CLIENT_SECRET: ((bosh-client-secret))
+    BOSH_CA_CERT: ((bosh-ca-cert))
+tasks: 
+  bosh-create-release: &BOSH_CREATE_RELEASE
+    platform: linux
+    image_resource:
+      type: docker-image
+      source:
+        repository: bosh/main-bosh-docker
+    inputs:
+    - name: repo
+    outputs:
+    - name: releases
+    run:
+      path: bash
+      args: 
+      - -c
+      - |
+        set -e
+        cd repo
+        mkdir -p src
+        bosh create-release --name=logstash-dev --force --timestamp-version --tarball=../releases/logstash-boshrelease.tgz
+  bosh-deploy: &BOSH_DEPLOY
+    platform: linux
+    image_resource:
+      type: docker-image
+      source:
+        repository: bosh/main-bosh-docker
+    inputs:
+    - name: repo
+    - name: releases
+    caches:
+    - path: repo/.bosh
+    run:
+      path: bash
+      args: 
+      - -c
+      - |
+        set -e
+        echo "======"
+        VM_TYPE=small
+        bosh env
+        bosh upload-release releases/*.tgz
+        cd repo
+        cat <<EOF > ops.yml
+        - type: remove
+          path: /instance_groups/name=${RELEASE_NAME}-dev/networks/0/static_ips?
+        - type: replace
+          path: /instance_groups/name=${RELEASE_NAME}-dev/vm_type
+          value: ${VM_TYPE}
+        - type: replace
+          path: /instance_groups/name=${RELEASE_NAME}-dev/jobs/name=logstash/properties/logstash/readiness_probe_http_port?
+          value: 0
+        - type: replace
+          path: /instance_groups/name=${RELEASE_NAME}-dev/jobs/name=logstash/properties/logstash/readiness_probe_tcp_port?
+          value: 5514
+        EOF
+        sed -i "s/name: ${RELEASE_NAME}/name: ${RELEASE_NAME}-dev/" manifest/logstash.yml
+        sed -i "s/release: ${RELEASE_NAME}/release: ${RELEASE_NAME}-dev/" manifest/logstash.yml
+        sed -i "s/  - name: logstash-dev/  - name: logstash/" manifest/logstash.yml
+        cat manifest/logstash.yml
+        bosh -n deploy -d ${RELEASE_NAME}-dev \
+             <(bosh int manifest/logstash.yml -o ops.yml) \
+             --vars-store=creds.yml \
+             --var-file logstash.conf=manifest/logstash.conf \
+             --no-redact
+        bosh vms -d ${RELEASE_NAME}-dev
+        ip=`bosh vms -d ${RELEASE_NAME}-dev | grep ${RELEASE_NAME} | awk '{print $4}'`
+        echo ${ip}
+        bosh -n delete-deployment -d ${RELEASE_NAME}-dev
+        bosh -n clean-up --all
+
 resource_types:
 - name: dynamic-metalink
   type: docker-image
@@ -248,79 +324,3 @@ jobs:
   - put: repo-version
     params:
       file: repo-version/number
-
-params:
-  bosh: &BOSH
-    BOSH_CLIENT: ((bosh-client))
-    BOSH_ENVIRONMENT: ((bosh-environment))
-    BOSH_CLIENT_SECRET: ((bosh-client-secret))
-    BOSH_CA_CERT: ((bosh-ca-cert))
-tasks: 
-  bosh-create-release: &BOSH_CREATE_RELEASE
-    platform: linux
-    image_resource:
-      type: docker-image
-      source:
-        repository: bosh/main-bosh-docker
-    inputs:
-    - name: repo
-    outputs:
-    - name: releases
-    run:
-      path: bash
-      args: 
-      - -c
-      - |
-        set -e
-        cd repo
-        mkdir -p src
-        bosh create-release --name=logstash-dev --force --timestamp-version --tarball=../releases/logstash-boshrelease.tgz
-  bosh-deploy: &BOSH_DEPLOY
-    platform: linux
-    image_resource:
-      type: docker-image
-      source:
-        repository: bosh/main-bosh-docker
-    inputs:
-    - name: repo
-    - name: releases
-    caches:
-    - path: repo/.bosh
-    run:
-      path: bash
-      args: 
-      - -c
-      - |
-        set -e
-        echo "======"
-        VM_TYPE=small
-        bosh env
-        bosh upload-release releases/*.tgz
-        cd repo
-        cat <<EOF > ops.yml
-        - type: remove
-          path: /instance_groups/name=${RELEASE_NAME}-dev/networks/0/static_ips?
-        - type: replace
-          path: /instance_groups/name=${RELEASE_NAME}-dev/vm_type
-          value: ${VM_TYPE}
-        - type: replace
-          path: /instance_groups/name=${RELEASE_NAME}-dev/jobs/name=logstash/properties/logstash/readiness_probe_http_port?
-          value: 0
-        - type: replace
-          path: /instance_groups/name=${RELEASE_NAME}-dev/jobs/name=logstash/properties/logstash/readiness_probe_tcp_port?
-          value: 5514
-        EOF
-        sed -i "s/name: ${RELEASE_NAME}/name: ${RELEASE_NAME}-dev/" manifest/logstash.yml
-        sed -i "s/release: ${RELEASE_NAME}/release: ${RELEASE_NAME}-dev/" manifest/logstash.yml
-        sed -i "s/  - name: logstash-dev/  - name: logstash/" manifest/logstash.yml
-        cat manifest/logstash.yml
-        bosh -n deploy -d ${RELEASE_NAME}-dev \
-             <(bosh int manifest/logstash.yml -o ops.yml) \
-             --vars-store=creds.yml \
-             --var-file logstash.conf=manifest/logstash.conf \
-             --no-redact
-        bosh vms -d ${RELEASE_NAME}-dev
-        ip=`bosh vms -d ${RELEASE_NAME}-dev | grep ${RELEASE_NAME} | awk '{print $4}'`
-        echo ${ip}
-        bosh -n delete-deployment -d ${RELEASE_NAME}-dev
-        bosh -n clean-up --all
