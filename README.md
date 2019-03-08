@@ -106,6 +106,8 @@ jobs:
           bosh upload-release bosh-releases/*.tgz
 ```
 
+![image](https://user-images.githubusercontent.com/106908/54048835-33fa3b00-421e-11e9-84f7-1d0225a4f114.png)
+
 ### How to build this bosh release for development
 
 #### Build and deploy this bosh release
