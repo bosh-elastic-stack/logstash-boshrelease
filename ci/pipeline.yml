@@ -126,6 +126,14 @@ resources:
           "files": [
             { "name": .,
               "urls": [ { "url": "https://artifacts.elastic.co/downloads/logstash/\(.)" } ] } ] }'
+- name: release
+  type: s3
+  source:
+    bucket: bosh-releases
+    regexp: logstash-boshrelease-(.*).tgz
+    endpoint: ((minio-endpoint))
+    access_key_id: ((minio-access-key-id))
+    secret_access_key: ((minio-secret-access-key))
 
 jobs:
 - name: create-el-bosh-release
@@ -164,6 +172,9 @@ jobs:
           set -e
           bosh upload-release bosh-releases/*.tgz
           bosh delete-release -n logstash
+  - put: release
+    params:
+      file: bosh-releases/logstash-boshrelease-*.tgz
 
 - name: update-pr
   serial: true
