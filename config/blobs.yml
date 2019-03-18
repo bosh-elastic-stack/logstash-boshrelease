@@ -1,8 +1,8 @@
-logstash/logstash-6.6.1.tar.gz:
-  size: 169512439
-  object_id: 997ed153-69fc-422a-6af3-be490d83bb8f
-  sha: 6c7f8e5012dcfdee456e2b7958bb87314bc5849c
+logstash/logstash-6.6.2.tar.gz:
+  size: 169445526
+  object_id: a4154b17-7ed2-4cc4-5a7f-28b42c404a57
+  sha: sha256:fe8a2501802797e5a92ff2af6c85396c0c23796f9c1c7b44161b1e27a83384fa
 python2.7/Python-2.7.15.tgz:
   size: 17496336
-  object_id: 9b5b716e-1949-4e1a-545a-90e6f69c76ed
+  object_id: 30974562-957b-470e-527d-94b65fc1fa2b
   sha: sha256:18617d1f15a380a919d517630a9cd85ce17ea602f9bbdc58ddc672df4b0239db
