@@ -1,0 +1,7 @@
+<% p("logstash.pipelines", []).each do |pipeline| %>
+- pipeline.id: <%= pipeline["name"] %>
+  path.config: "/var/vcap/jobs/logstash/config/conf.d/<%= pipeline['name'] %>/*.conf"
+<% if pipeline["params"] != nil && !pipeline["params"].empty? %><% pipeline["params"].each do | k , v | %>  <%= k %> : <%= v %>
+<% end %>
+<% end %>
+<% end %>

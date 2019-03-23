@@ -3,11 +3,12 @@ name: logstash
 
 templates:
   bin/ctl: bin/ctl
+  bin/pre-start: bin/pre-start
   bin/post-start: bin/post-start
   bin/ctl_utils.sh: bin/ctl_utils.sh
   bin/tcp_probe.py: bin/tcp_probe.py
-  config/logstash.conf: config/logstash.conf
-  config/logstash.yml.template: config/logstash.yml.template
+  config/logstash.yml: config/logstash.yml.tmpl
+  config/pipelines.yml: config/pipelines.yml
   config/tls.crt: config/tls.crt
   config/tls.key: config/tls.key
   config/env.sh: config/env.sh
@@ -23,10 +24,24 @@ consumes:
   optional: true
 
 properties:
-  logstash.conf:
-    default: |-
-      input {  tcp { port => 5514 } } output { stdout { codec => json_lines } }
-    description: logstash.conf
+  logstash.pipelines:
+    description: |
+      Definition of pipelines.yml. You can define as many pipelines as you need,
+      with the configuration splited as many times as you need. Each entry
+      within "config" key will be a file.
+    example:
+    - name: tcp
+      params:
+        queue.type: persisted
+        pipeline.workers: 3
+      config:
+        tcp: | 
+          input { 
+            tcp { port => 5514 } 
+          } 
+          output { 
+            stdout { codec => json_lines } 
+          }
   logstash.tls.certificate:
     description: |-
       TLS certificate that is stored in /var/vcap/jobs/logstash/config/tls.crt

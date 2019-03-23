@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+# Delete all configurations
+rm -rf /var/vcap/jobs/logstash/config/conf.d
+<% p("logstash.pipelines", []).each do |pipeline| %>
+mkdir -p /var/vcap/jobs/logstash/config/conf.d/<%= pipeline["name"] %>
+# Add all configs
+  <% pipeline["config"].each do |key, content| %>
+    <% if nil != content && content != '' %>
+      <% if content.start_with? '/var/vcap' %>
+# Link to another job/package
+ln -sf <%= content %> /var/vcap/jobs/logstash/config/conf.d/<%= pipeline["name"] %>/<%= key %>.conf
+      <% else %>
+cat <<'EOF' > /var/vcap/jobs/logstash/config/conf.d/<%= pipeline["name"] %>/<%= key %>.conf
+<%= content %>
+EOF
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

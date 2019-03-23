@@ -21,21 +21,22 @@ case $1 in
 
     ulimit -n 65536
 
-    export ES_HOSTS=`cat $JOB_DIR/config/elasticsearch-hosts`
-    sed "s|__ES_HOSTS__|${ES_HOSTS}|g" $JOB_DIR/config/logstash.conf > $JOB_DIR/config/logstash-es.conf
-    <% if_p('elasticsearch.username') do |username| %>
-    sed -i "s|__ES_USERNAME__|<%= username %>|g" $JOB_DIR/config/logstash-es.conf
-    <% end %>
-    <% if_p('elasticsearch.password') do |password| %>
-    sed -i "s|__ES_PASSWORD__|<%= password %>|g" $JOB_DIR/config/logstash-es.conf
-    <% end %>
-    sed "s|__ES_HOSTS__|${ES_HOSTS}|g" $JOB_DIR/config/logstash.yml.template > $JOB_DIR/config/logstash.yml
     source $JOB_DIR/config/env.sh
+
+    for f in `find $JOB_DIR/config/conf.d -type f -name '*.conf'`;do
+      sed -i "s|__ES_HOSTS__|${ES_HOSTS}|g" $f
+      sed -i "s|__ES_USERNAME__|${ES_USERNAME}|g" $f
+      sed -i "s|__ES_PASSWORD__|${ES_PASSWORD}|g" $f
+    done
+
+    sed "s|__ES_HOSTS__|${ES_HOSTS}|g" $JOB_DIR/config/logstash.yml.tmpl > $JOB_DIR/config/logstash.yml
+    sed -i "s|__ES_USERNAME__|${ES_USERNAME}|g" $JOB_DIR/config/logstash.yml
+    sed -i "s|__ES_PASSWORD__|${ES_PASSWORD}|g" $JOB_DIR/config/logstash.yml
+
     echo $$ > $PIDFILE
 
     exec chpst -u $RUNAS:$RUNAS \
        /var/vcap/packages/logstash/bin/logstash \
-      --path.config $JOB_DIR/config/logstash-es.conf \
       --path.data $STORE_DIR \
       --path.logs $LOG_DIR \
       --path.settings $JOB_DIR/config \
