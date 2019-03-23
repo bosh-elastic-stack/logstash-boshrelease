@@ -9,6 +9,7 @@ templates:
   bin/tcp_probe.py: bin/tcp_probe.py
   config/logstash.yml: config/logstash.yml.tmpl
   config/pipelines.yml: config/pipelines.yml
+  config/jvm.options: config/jvm.options
   config/tls.crt: config/tls.crt
   config/tls.key: config/tls.key
   config/env.sh: config/env.sh
