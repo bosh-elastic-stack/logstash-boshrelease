@@ -23,15 +23,19 @@ Example: `logstash-pipelines.yml`
       foo: ((foo.conf))
   - name: bar
     config:
-      bar1: ((bar1.conf))
-      bar2: ((bar2.conf))
+      input: ((bar-input.conf))
+      filter1: ((bar-filter1.conf))
+      filter1: ((bar-filter2.conf))
+      output: ((bar-output.conf))
 ```
 
 ```
 bosh -d logstash deploy manifest/logstash.yml \
   --var-file foo.conf=pipelines/foo.conf \
-  --var-file bar1.conf=pipelines/bar1.conf \
-  --var-file bar2.conf=pipelines/bar2.conf \
+  --var-file bar-input.conf=pipelines/bar-input.conf \
+  --var-file bar-filter1.conf=pipelines/bar-filter1.conf \
+  --var-file bar-filter2.conf=pipelines/bar-filter2.conf \
+  --var-file bar-output.conf=pipelines/bar-output.conf \
   --no-redact
 ```
 
