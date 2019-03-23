@@ -8,6 +8,33 @@ Since 0.9.0, logstash bosh release comes with [the pure Apache 2.0 licensed dist
 Please do not use previous versions.
 If you want to use X-Pack features, download [Elastic License licensed distribution](https://www.elastic.co/jp/downloads/logstash) and build the bosh release with it by yourself. You can use [a prepared concourse task](#build-your-own-bosh-release-with-x-pack-by-concourse). 
 
+### Configure multipe pipelines
+
+You can configure [multipe pipelines](https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html) by specifiying `logstash.pipelines` property.
+
+Exampe: `logstash-pipelines.yml`
+
+```yaml
+- type: replace
+  path: /instance_groups/name=logstash/properties/logstash/pipelines?
+  value:
+  - name: foo
+    config:
+      foo: ((foo.conf))
+  - name: bar
+    config:
+      bar1: ((bar1.conf))
+      bar2: ((bar2.conf))
+```
+
+```
+bosh -d logstash deploy manifest/logstash.yml \
+  --var-file foo.conf=pipelines/foo.conf \
+  --var-file bar1.conf=pipelines/bar1.conf \
+  --var-file bar2.conf=pipelines/bar2.conf \
+  --no-redact
+```
+
 ### Build your own bosh release with X-Pack by Concourse
 
 logstash boshrelease does not include X-Pack since it uses the pure Apache 2.0 licensed distribution.
