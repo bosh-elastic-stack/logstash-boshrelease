@@ -25,7 +25,7 @@ Example: `logstash-pipelines.yml`
     config:
       input: ((bar-input.conf))
       filter1: ((bar-filter1.conf))
-      filter1: ((bar-filter2.conf))
+      filter2: ((bar-filter2.conf))
       output: ((bar-output.conf))
 ```
 
