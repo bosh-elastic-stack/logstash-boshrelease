@@ -59,6 +59,9 @@ tasks:
         - type: replace
           path: /instance_groups/name=${RELEASE_NAME}-dev/jobs/name=logstash/properties/logstash/readiness_probe_tcp_port?
           value: 5514
+        - type: replace
+          path: /instance_groups/name=${RELEASE_NAME}-dev/jobs/name=logstash/properties/logstash/heap_size?
+          value: 512M
         EOF
         sed -i "s/name: ${RELEASE_NAME}/name: ${RELEASE_NAME}-dev/" manifest/logstash.yml
         sed -i "s/release: ${RELEASE_NAME}/release: ${RELEASE_NAME}-dev/" manifest/logstash.yml
