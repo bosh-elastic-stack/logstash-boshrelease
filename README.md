@@ -12,7 +12,7 @@ If you want to use X-Pack features, download [Elastic License licensed distribut
 
 You can configure [multipe pipelines](https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html) by specifiying `logstash.pipelines` property.
 
-Exampe: `logstash-pipelines.yml`
+Example: `logstash-pipelines.yml`
 
 ```yaml
 - type: replace
@@ -34,6 +34,8 @@ bosh -d logstash deploy manifest/logstash.yml \
   --var-file bar2.conf=pipelines/bar2.conf \
   --no-redact
 ```
+
+This properity is compatible with [cf-logging-boshrelease](https://github.com/SpringerPE/cf-logging-boshrelease/tree/master/manifest/operations/pipelines)
 
 ### Build your own bosh release with X-Pack by Concourse
 
