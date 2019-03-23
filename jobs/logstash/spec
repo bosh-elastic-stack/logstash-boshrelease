@@ -61,6 +61,13 @@ properties:
     description: TLS private key that is stored in /var/vcap/jobs/logstash/config/tls.key
   logstash.env:
     description: A hash of envrioment varibales
+  logstash.jvm.heap_size:
+    description: Sets JVM heap size. If not defined it is automatically calculated.
+  logstash.jvm.heap_size_pct:
+    description: |
+      Percentage of MemTotal to be assigned to JVM Heap if heap_size is not provided 
+      and it is calculated automatically.
+    default: 50
   logstash.readiness_probe_http_port:
     description: HTTP port to check the readiness of Logstash server. Set 0 to disable the http readiness probe.
     default: 9600
