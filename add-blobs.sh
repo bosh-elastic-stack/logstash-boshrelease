@@ -18,7 +18,7 @@ blob_download() {
   fi
 }
 
-LOGSTASH_VERSION=6.6.2
+LOGSTASH_VERSION=6.7.0
 
 if [ ! -f ${DIR}/blobs/logstash/logstash-${LOGSTASH_VERSION}.tar.gz ];then
     curl -L -J -o logstash-${LOGSTASH_VERSION}.tar.gz https://artifacts.elastic.co/downloads/logstash/logstash-oss-${LOGSTASH_VERSION}.tar.gz
