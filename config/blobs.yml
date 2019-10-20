@@ -1,8 +1,8 @@
-logstash/logstash-7.2.1.tar.gz:
-  size: 171144733
-  object_id: 4e6cbabe-ecbc-4386-7f08-c91ca9d4e3d7
-  sha: sha256:ee396fb30049f9ee7946aa8d1505a66299d8fe096e1b585bab1a5b6c43d41e22
+logstash/logstash-7.4.0.tar.gz:
+  size: 173074464
+  object_id: de64893c-1b3f-40a5-6a9f-8a4e46ea5fae
+  sha: sha256:b1da54f5ab52f3d29d4da9853d3b8e667e158b10fe67fcfee9a86eae51529ec1
 python2.7/Python-2.7.15.tgz:
   size: 17496336
-  object_id: 929578e6-769a-4c97-7aa3-7fe097a882a6
+  object_id: 35fef131-6641-4295-5154-6daca8c096b9
   sha: sha256:18617d1f15a380a919d517630a9cd85ce17ea602f9bbdc58ddc672df4b0239db
