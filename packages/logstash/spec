@@ -4,4 +4,4 @@ name: logstash
 dependencies: []
 
 files:
-- logstash/logstash-7.4.2.tar.gz
+- logstash/logstash-7.6.1.tar.gz
