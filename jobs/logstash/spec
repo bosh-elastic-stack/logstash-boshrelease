@@ -81,6 +81,13 @@ properties:
   logstash.sigkill_on_timeout:
     default: Whether to send kill signal on timeout
     default: true
+  logstash.plugins:
+    description: "Plugins to run logstash with (array[] = { plugin-name: install-source }; e.g. [ { logstash-input-cloudwatch_logs: 'logstash-input-cloudwatch_logs' } ])"
+    default: []
+  logstash.plugin_install_opts:
+    description: "Command line parameters for 'logstash-plugin install'"
+    example: ['--development']
+    default: []
   elasticsearch.hosts:
     description: The list of elasticsearch node IPs
     default: []

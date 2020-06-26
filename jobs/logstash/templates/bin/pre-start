@@ -19,3 +19,29 @@ EOF
     <% end %>
   <% end %>
 <% end %>
+
+# Install plugins
+export JAVA_HOME=/var/vcap/packages/java
+export PATH=$PATH:/var/vcap/packages/logstash/bin
+
+rm -rf /var/vcap/packages/logstash/plugins/*
+<%
+  opts = p("logstash.plugin_install_opts").join(' ')
+%>
+if [ -d /var/vcap/packages/logstash-plugins ];then
+	for f in `ls /var/vcap/packages/logstash-plugins`;do
+		echo "installing ${f}"
+		logstash-plugin install <%= opts %> "file:///var/vcap/packages/logstash-plugins/${f}"
+	done;
+fi
+
+<% p("logstash.plugins").each do |plugin| name, path = plugin.first %>
+  <% if path.start_with? '/var/vcap' %>
+    logstash-plugin install <%= opts %> "file://<%= path %>"
+  <% else %>
+    logstash-plugin install <%= opts %> "<%= path %>"
+  <% end %>
+<% end %>
+
+echo "== Installed plugins =="
+logstash-plugin list
