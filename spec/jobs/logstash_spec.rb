@@ -122,4 +122,32 @@ describe 'logstash job' do
       expect(script).to include('input { file { path => "/path/to/access.log" } } output { stdout { codec => json_lines } }')
     end
   end
+
+
+  describe 'pre-start.sh' do
+    let(:template) { job.template('bin/pre-start') }
+    let(:links) { [
+        Bosh::Template::Test::Link.new(
+          name: 'elasticsearch',
+          instances: [Bosh::Template::Test::LinkInstance.new(address: '10.0.8.2')],
+          properties: {
+            'elasticsearch'=> {
+              'cluster_name' => 'test'
+            },
+          }
+        )
+      ] }
+
+    it 'sets plugins properties' do
+      prestart = template.render({'logstash' => {
+        'plugins' => [
+          { 'logstash-input-cloudwatch_logs': 'logstash-input-cloudwatch_logs' },
+          { 'logstash-output-kafka': 'logstash-output-kafka' },
+        ],
+        'plugin_install_opts' => ['--development']
+      }}, consumes: links).strip
+      expect(prestart).to include('logstash-plugin install --development "logstash-input-cloudwatch_logs"')
+      expect(prestart).to include('logstash-plugin install --development "logstash-output-kafka"')
+    end
+  end
 end 
