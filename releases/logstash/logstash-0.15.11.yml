@@ -1,0 +1,27 @@
+name: logstash
+version: 0.15.11
+commit_hash: 9e04b77
+uncommitted_changes: false
+jobs:
+- name: logstash
+  version: 76f00392d11088a27b4a24899922c9f11182fac50703431001de51402c3c58de
+  fingerprint: 76f00392d11088a27b4a24899922c9f11182fac50703431001de51402c3c58de
+  sha1: sha256:fc3481b04e3dee45993be401cf68dc5da93b98e1494daf168754f7236c29e2d9
+  packages:
+  - logstash
+  - python2.7
+packages:
+- name: logstash
+  version: f6a3796693ce2796fe602409037f951eddacd5cbc92e57e139f9d8a930cb6481
+  fingerprint: f6a3796693ce2796fe602409037f951eddacd5cbc92e57e139f9d8a930cb6481
+  sha1: sha256:75dff8ae787d559e981df1f403c3210a593068b5215f68be2f59bf755b616ae7
+  dependencies: []
+- name: python2.7
+  version: 516450abf69ffb0981b597875f1fbcf357b92a19a4f0690c9b73e56d94224aef
+  fingerprint: 516450abf69ffb0981b597875f1fbcf357b92a19a4f0690c9b73e56d94224aef
+  sha1: sha256:e5ca01367ed1a5e58043387da15e14f5bf2b30c10f0fd9abde2bde21328f1306
+  dependencies: []
+license:
+  version: 497961e97a84a4ba8f2b8f9448d6539fd04d070ae843af09bd4910a728ff7127
+  fingerprint: 497961e97a84a4ba8f2b8f9448d6539fd04d070ae843af09bd4910a728ff7127
+  sha1: sha256:749d366b12adb4c251fdd0664f5d3df191ef059ffbdfc6cab423ce94902330b2
