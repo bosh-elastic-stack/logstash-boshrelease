@@ -21,7 +21,7 @@ blob_download() {
 LOGSTASH_VERSION=7.10.0
 
 if [ ! -f ${DIR}/blobs/logstash/logstash-${LOGSTASH_VERSION}.tar.gz ];then
-    curl -L -J -o logstash-${LOGSTASH_VERSION}.tar.gz https://artifacts.elastic.co/downloads/logstash/logstash-oss-${LOGSTASH_VERSION}.tar.gz
+    curl -L -J -o logstash-${LOGSTASH_VERSION}.tar.gz https://artifacts.elastic.co/downloads/logstash/logstash-oss-${LOGSTASH_VERSION}-linux-x86_64.tar.gz
     bosh add-blob --dir=${DIR} logstash-${LOGSTASH_VERSION}.tar.gz logstash/logstash-${LOGSTASH_VERSION}.tar.gz
 fi
 
